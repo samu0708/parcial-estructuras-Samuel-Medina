@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Parcial de Estructuras de Datos — Enunciado A: Red de Sensores IoT.">
+<title>Enunciado A · Red de Sensores IoT | Estructuras de Datos</title>
+<style>
+:root{--bg:#f5f7fb;--paper:#fff;--ink:#182238;--muted:#64718a;--line:#e1e7f0;--brand:#3759d7;--brand2:#7188ff;--soft:#edf1ff;--code:#111827;--shadow:0 12px 34px rgba(25,42,80,.07);--green:#16836b;--amber:#9b6200}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body.dark{--bg:#0d1321;--paper:#141d2e;--ink:#e8edf8;--muted:#a1aec6;--line:#29364c;--brand:#91a5ff;--brand2:#687ff2;--soft:#202b48;--code:#080d16;--shadow:0 12px 34px rgba(0,0,0,.22);--green:#64d5b4;--amber:#ffd078}
+a{color:var(--brand)}
+button,input{font:inherit}button{cursor:pointer}
+.topbar{height:68px;position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:0 24px}
+.brand{font-weight:800;letter-spacing:-.03em;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.brandmark{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--brand),#24b8a3);color:#fff;display:grid;place-items:center;font-weight:900}
+.topbar .spacer{flex:1}
+.iconbtn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:11px;padding:8px 12px}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1400px;margin:auto}
+.sidebar{position:sticky;top:68px;height:calc(100vh - 68px);overflow:auto;padding:24px 16px 28px 22px;border-right:1px solid var(--line)}
+.navlabel{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800;margin:8px 12px 12px}
+.nav a{display:flex;gap:11px;align-items:flex-start;padding:9px 11px;margin:2px 0;border-radius:10px;color:var(--muted);text-decoration:none;font-size:13px;line-height:1.4}
+.nav a:hover,.nav a.active{background:var(--soft);color:var(--brand);font-weight:700}
+.num{font-variant-numeric:tabular-nums;min-width:22px;font-weight:800}
+.sidefoot{margin:20px 10px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+.main{min-width:0;padding:34px clamp(20px,4vw,64px) 80px}
+.hero{position:relative;overflow:hidden;background:linear-gradient(125deg,#162554,#304cc2 56%,#11a997);border-radius:26px;color:white;padding:clamp(28px,5vw,58px);box-shadow:var(--shadow);margin-bottom:32px}
+.hero:after{content:'IoT  ·  ◆◇  ·  JUnit';position:absolute;right:-10px;bottom:-35px;font-size:clamp(42px,9vw,130px);font-weight:900;letter-spacing:-.08em;color:rgba(255,255,255,.08);white-space:nowrap}
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;opacity:.8}
+.hero h1{font-size:clamp(32px,5vw,58px);line-height:1.08;letter-spacing:-.05em;max-width:850px;margin:16px 0}
+.hero p{max-width:720px;color:#e2e9ff;font-size:18px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.pill{font-size:12px;padding:6px 11px;border:1px solid rgba(255,255,255,.27);border-radius:99px;background:rgba(255,255,255,.1)}
+.progress-wrap{height:4px;background:var(--line);position:fixed;top:67px;left:0;right:0;z-index:21}
+.progress{height:100%;width:0;background:linear-gradient(90deg,var(--brand),#18b59d);transition:width .15s}
+.section{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3vw,36px);margin:22px 0;box-shadow:var(--shadow)}
+.section-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px}
+.section-num{width:44px;height:44px;flex:none;display:grid;place-items:center;border-radius:14px;background:var(--soft);color:var(--brand);font-weight:900}
+.section h2{font-size:clamp(23px,3vw,32px);line-height:1.2;letter-spacing:-.035em;margin:2px 0 7px}
+.section h3{font-size:19px;letter-spacing:-.02em;margin:26px 0 8px}
+.section h4{margin:18px 0 6px}
+.section p{margin:10px 0}
+.muted{color:var(--muted)}
+.callout{border-left:4px solid var(--brand);background:var(--soft);padding:15px 18px;border-radius:0 12px 12px 0;margin:18px 0}
+.callout.warn{border-left-color:var(--amber)}
+.callout.ok{border-left-color:var(--green)}
+.grid2,.grid3{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr));margin:16px 0}
+.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.mini{border:1px solid var(--line);border-radius:14px;padding:17px;background:color-mix(in srgb,var(--paper) 85%,var(--bg))}
+.mini h4{margin:0 0 6px}
+.mini p{font-size:14px;color:var(--muted);margin:0}
+.timeline{position:relative;display:grid;gap:12px;margin:18px 0}
+.timeitem{display:grid;grid-template-columns:120px 1fr;gap:18px;padding:15px;border:1px solid var(--line);border-radius:13px}
+.timeyear{color:var(--brand);font-weight:850}
+.tablewrap{overflow-x:auto;margin:15px 0;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:500px;font-size:14px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--soft);font-weight:800}
+tr:last-child td{border-bottom:0}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.92em;background:var(--soft);padding:2px 5px;border-radius:5px}
+pre{background:var(--code);color:#e6edf7;border-radius:13px;padding:19px;overflow:auto;position:relative;font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;margin:12px 0}
+pre code{background:none;padding:0;color:inherit}
+.copy{position:absolute;top:9px;right:9px;border:1px solid #3c4659;background:#202a3a;color:#e6edf7;padding:5px 9px;border-radius:7px;font-size:11px}
+ul,ol{padding-left:23px}li{padding:3px 0}
+.tag{font-size:12px;background:var(--soft);color:var(--brand);padding:4px 8px;border-radius:99px;display:inline-block;margin:2px}
+.footer{padding:30px 8px;color:var(--muted);font-size:13px;text-align:center}
+.hidden{display:none!important}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{position:relative;top:0;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:12px 18px}.nav{display:flex;overflow:auto;gap:4px}.nav a{white-space:nowrap}.navlabel,.sidefoot{display:none}.main{padding:22px 16px 60px}.topbar{padding:0 14px}}
+@media(max-width:620px){.brandtext{display:none}.grid2,.grid3{grid-template-columns:1fr}.timeitem{grid-template-columns:1fr;gap:2px}.hero{border-radius:18px}.section{border-radius:16px;padding:21px}}
+@media print{.topbar,.sidebar,.progress-wrap,.copy{display:none!important}.layout{display:block}.main{padding:0}.section,.hero{box-shadow:none;break-inside:avoid}.hero{background:#263e9b!important;print-color-adjust:exact}}
+</style></head>
+<body>
+<div class="progress-wrap"><div class="progress" id="progress"></div></div>
+<header class="topbar">
+  <div class="brand"><span class="brandmark">A</span><span class="brandtext">Parcial · Estructuras de Datos</span></div>
+  <div class="spacer"></div>
+  <button class="iconbtn" id="theme" aria-label="Cambiar tema">☾</button>
+  <button class="iconbtn" onclick="window.print()" title="Imprimir o guardar como PDF">⇩ PDF</button>
+</header>
+<div class="layout">
+<aside class="sidebar">
+  <div class="navlabel">Contenido del enunciado</div>
+  <nav class="nav" id="nav">
+    <a href="#descripcion"><span class="num">01</span> Descripción del problema</a>
+    <a href="#relaciones"><span class="num">02</span> Relaciones UML obligatorias</a>
+    <a href="#entregable"><span class="num">03</span> Qué debes implementar</a>
+    <a href="#git"><span class="num">04</span> Indicaciones de Git</a>
+    <a href="#ejecutar"><span class="num">05</span> Cómo ejecutar el proyecto</a>
+    <a href="#pruebas"><span class="num">06</span> Cómo ejecutar las pruebas</a>
+    <a href="#errores"><span class="num">07</span> Errores comunes</a>
+  </nav>
+  <div class="sidefoot">Enunciado A · Red de Sensores IoT<br>Ingeniería en Datos e IA</div>
+</aside>
+<main class="main">
+
+<section class="hero">
+  <div class="eyebrow">Parcial · Sesión 1 (3 h) + Sesión 2 (2 h) · Individual</div>
+  <h1>Enunciado A: Red de Sensores IoT para Agricultura Inteligente</h1>
+  <p>Modela, implementa y prueba una red de sensores que monitorea cultivos. Aplica herencia, polimorfismo, encapsulamiento, abstracción y las cuatro relaciones UML (asociación, dependencia, agregación y composición) sobre listas <code>int[]</code> y <code>ArrayList</code>.</p>
+  <div class="pills">
+    <span class="pill">Java plano</span>
+    <span class="pill">IntelliJ IDEA</span>
+    <span class="pill">JUnit</span>
+    <span class="pill">Git</span>
+    <span class="pill">POO</span>
+  </div>
+</section>
+
+<section class="section" id="descripcion">
+  <div class="section-head"><div class="section-num">01</div><div><h2>Descripción del problema</h2><div class="muted">Contexto y requerimientos funcionales</div></div></div>
+  <p>Una empresa agrícola despliega una red de sensores para monitorear cultivos. Cada <strong>nodo</strong> de la red contiene varios <strong>sensores</strong> de distinto tipo (temperatura, humedad, luminosidad). Los sensores generan <strong>lecturas</strong> periódicas que se almacenan para análisis posterior.</p>
+  <p>El centro de monitoreo debe poder consultar en tiempo real:</p>
+  <ul>
+    <li>El promedio de temperatura por nodo.</li>
+    <li>Los sensores cuyas últimas lecturas están fuera de rango.</li>
+    <li>Los técnicos asignados a cada nodo.</li>
+  </ul>
+
+  <h3>Requerimientos funcionales</h3>
+  <ol>
+    <li>Existen tres tipos de sensores: <code>SensorTemperatura</code>, <code>SensorHumedad</code> y <code>SensorLuminosidad</code>, todos heredan de una clase abstracta <code>Sensor</code>.</li>
+    <li>Cada sensor genera lecturas con valor entero, unidad y timestamp.</li>
+    <li>Un <code>NodoIoT</code> <strong>posee</strong> sensores (composición: si el nodo se destruye, los sensores también).</li>
+    <li>Un <code>CentroMonitoreo</code> <strong>agrega</strong> varios nodos (agregación).</li>
+    <li>Cada <code>Lectura</code> <strong>depende</strong> de un servicio <code>ValidadorLectura</code> para validarse.</li>
+    <li>Un <code>TecnicoMantenimiento</code> se <strong>asocia</strong> a nodos que revisa (relación N:M).</li>
+    <li>Cada sensor mantiene un historial de sus últimas N lecturas usando un <code>int[]</code> de capacidad fija (buffer circular).</li>
+    <li>El centro de monitoreo gestiona sus nodos con <code>ArrayList&lt;NodoIoT&gt;</code>.</li>
+  </ol>
+</section>
+
+<section class="section" id="relaciones">
+  <div class="section-head"><div class="section-num">02</div><div><h2>Relaciones UML obligatorias</h2><div class="muted">Debes respetar el contrato de diseño dado por el docente</div></div></div>
+  <p>El docente ya entregó el diagrama UML final en <code>docs/UML-final.md</code>. Tu código debe respetar exactamente las clases, atributos, métodos y las cinco relaciones que se listan a continuación:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Relación</th><th>Clases involucradas</th><th>Cómo se implementa</th></tr></thead>
+    <tbody>
+      <tr><td>Herencia</td><td><code>Sensor</code> → <code>SensorTemperatura</code>, <code>SensorHumedad</code>, <code>SensorLuminosidad</code></td><td>Clase abstracta <code>Sensor</code> + <code>@Override</code> en subclases.</td></tr>
+      <tr><td>Composición</td><td><code>NodoIoT</code> ◆— <code>Sensor</code></td><td>Los sensores se instancian dentro de <code>NodoIoT.agregarSensor(...)</code>.</td></tr>
+      <tr><td>Agregación</td><td><code>CentroMonitoreo</code> ◇— <code>NodoIoT</code></td><td>Los nodos se crean fuera y se registran con <code>agregarNodo()</code>.</td></tr>
+      <tr><td>Asociación</td><td><code>TecnicoMantenimiento</code> — <code>NodoIoT</code> (N:M)</td><td>Referencia por atributo <code>ArrayList&lt;NodoIoT&gt;</code>.</td></tr>
+      <tr><td>Dependencia</td><td><code>Lectura</code> ⇢ <code>ValidadorLectura</code></td><td>Se pasa como parámetro, no se guarda como atributo.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><strong>Contrato de diseño:</strong> no agregues ni elimines clases. Las firmas de los métodos ya están dadas en el código base; tu tarea es implementar sus cuerpos.</div>
+</section>
+
+<section class="section" id="entregable">
+  <div class="section-head"><div class="section-num">03</div><div><h2>Qué debes implementar</h2><div class="muted">Tareas concretas para la Sesión 2</div></div></div>
+  <div class="grid2">
+    <div class="mini"><h4>Buffer circular en <code>Sensor</code></h4><p>Implementa <code>registrarLectura(int)</code> con <code>int[]</code> de capacidad fija y <code>promedioUltimasLecturas()</code>. Cuando el buffer se llena, sobrescribe la lectura más antigua.</p></div>
+    <div class="mini"><h4>Generación polimórfica de lecturas</h4><p>En cada subclase de <code>Sensor</code>, implementa <code>generarLectura()</code> para producir un valor aleatorio, registrar y retornarlo. Implementa <code>fueraDeRango(int)</code> con el rango de cada sensor.</p></div>
+    <div class="mini"><h4>Composición en <code>NodoIoT</code></h4><p>En <code>agregarSensor(String tipo, String id, int capacidad)</code> crea el sensor del tipo indicado dentro del nodo y agrégalo a <code>ArrayList&lt;Sensor&gt;</code>. Implementa <code>promedioTemperatura()</code> y <code>sensoresFueraDeRango()</code>.</p></div>
+    <div class="mini"><h4>Agregación en <code>CentroMonitoreo</code></h4><p>Implementa <code>agregarNodo(NodoIoT)</code> y <code>reporteTemperaturas()</code> usando <code>ArrayList&lt;NodoIoT&gt;</code>.</p></div>
+    <div class="mini"><h4>Asociación en <code>TecnicoMantenimiento</code></h4><p>Implementa <code>asignarNodo(NodoIoT)</code> guardando la referencia en <code>ArrayList&lt;NodoIoT&gt;</code>.</p></div>
+    <div class="mini"><h4>Dependencia en <code>Lectura</code></h4><p>Implementa <code>esValida(String tipo, ValidadorLectura v)</code> delegando la validación al servicio. Implementa también <code>ValidadorLectura.esValida(tipo, valor)</code>.</p></div>
+  </div>
+
+  <div class="callout warn"><strong>⚠ No modifiques la carpeta <code>test/</code>.</strong> Contiene las pruebas JUnit que usarás para verificar tu implementación. Cualquier modificación anula el examen.</div>
+  <div class="callout ok"><strong>El proyecto compila desde el primer minuto.</strong> Los métodos con <code>TODO</code> retornan valores neutros (<code>0</code>, <code>null</code>, <code>false</code>, listas vacías), así que puedes compilar y ejecutar IntelliJ antes de empezar a programar.</div>
+</section>
+
+<section class="section" id="git">
+  <div class="section-head"><div class="section-num">04</div><div><h2>Indicaciones de Git</h2><div class="muted">Clona, ramifica, commitea y sube</div></div></div>
+
+  <h3>1. Clonar el repositorio base</h3>
+  <pre><button class="copy">Copiar</button><code>git clone &lt;URL-del-repo-base&gt; parcial-estructuras
+cd parcial-estructuras</code></pre>
+
+  <h3>2. Crear tu rama personal</h3>
+  <p>Reemplaza <code>nombre-apellido</code> por tu nombre real en minúsculas.</p>
+  <pre><button class="copy">Copiar</button><code>git checkout -b parcial/nombre-apellido</code></pre>
+
+  <h3>3. Verificar que compila antes de tocar código</h3>
+  <p>Abre el proyecto en IntelliJ y ejecuta <code>Build → Rebuild Project</code>. Debe compilar sin errores desde el primer momento.</p>
+
+  <h3>4. Commits atómicos sugeridos</h3>
+  <pre><button class="copy">Copiar</button><code># Al responder las preguntas de comprensión
+git add docs/comprension.md
+git commit -m "comprension: respondo preguntas del UML"
+
+# Al implementar el buffer circular
+git add src/sensores/Sensor.java
+git commit -m "impl: buffer circular y promedio de lecturas"
+
+# Al implementar la jerarquía de sensores
+git add src/sensores/
+git commit -m "impl: generarLectura y fueraDeRango en subclases"
+
+# Al implementar composición, agregación, asociación y dependencia
+git add src/red/ src/personas/ src/servicios/
+git commit -m "impl: relaciones UML completas"
+
+# Al terminar
+git add .
+git commit -m "impl: TODOs completados y tests pasando"</code></pre>
+
+  <h3>5. Subir tu rama</h3>
+  <pre><button class="copy">Copiar</button><code>git push origin parcial/nombre-apellido</code></pre>
+
+  <h3>6. Entrega</h3>
+  <p>Publica en el aula virtual el <strong>enlace a tu rama</strong> en el repositorio remoto antes del cierre de la sesión.</p>
+
+  <div class="callout"><strong>Buenas prácticas:</strong> commits pequeños y descriptivos; nunca subas la carpeta <code>out/</code> ni archivos <code>.class</code>; no hagas <code>force push</code>.</div>
+</section>
+
+<section class="section" id="ejecutar">
+  <div class="section-head"><div class="section-num">05</div><div><h2>Cómo ejecutar el proyecto</h2><div class="muted">Desde la descarga hasta ver <code>Main</code> corriendo en IntelliJ</div></div></div>
+
+  <div class="timeline">
+    <div class="timeitem"><div class="timeyear">Paso 1</div><div><strong>Clonar el repositorio</strong><p>Usa el comando de la sección 04. Se creará la carpeta <code>parcial-estructuras/</code> con todo el contenido.</p></div></div>
+    <div class="timeitem"><div class="timeyear">Paso 2</div><div><strong>Abrir en IntelliJ IDEA</strong><p><code>File → Open…</code> y selecciona la <strong>carpeta raíz</strong> del proyecto clonado (no un archivo). IntelliJ detectará la estructura.</p></div></div>
+    <div class="timeitem"><div class="timeyear">Paso 3</div><div><strong>Marcar <code>src</code> como Sources Root</strong><p>Clic derecho sobre la carpeta <code>src</code> → <code>Mark Directory as → Sources Root</code>. La carpeta se pondrá azul.</p></div></div>
+    <div class="timeitem"><div class="timeyear">Paso 4</div><div><strong>Marcar <code>test</code> como Test Sources Root</strong><p>Clic derecho sobre la carpeta <code>test</code> → <code>Mark Directory as → Test Sources Root</code>. La carpeta se pondrá verde.</p></div></div>
+    <div class="timeitem"><div class="timeyear">Paso 5</div><div><strong>Descargar el JAR de JUnit</strong><p>Descarga <code>junit-platform-console-standalone-1.10.2.jar</code> desde <a href="https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.2/" target="_blank" rel="noreferrer">repo1.maven.org</a> y guárdalo en la carpeta <code>lib/</code> del proyecto.</p></div></div>
+    <div class="timeitem"><div class="timeyear">Paso 6</div><div><strong>Agregar JUnit como librería</strong><p><code>File → Project Structure → Libraries → + → Java</code> y selecciona el JAR descargado. Verifica en <code>Modules → Dependencies</code> que aparezca asociado.</p></div></div>
+    <div class="timeitem"><div class="timeyear">Paso 7</div><div><strong>Recompilar el proyecto</strong><p><code>Build → Rebuild Project</code>. Debe terminar sin errores. Si hay errores, revisa los pasos 3, 4 y 6.</p></div></div>
+    <div class="timeitem"><div class="timeyear">Paso 8</div><div><strong>Ejecutar <code>Main</code></strong><p>Abre <code>src/Main.java</code> y haz clic en el triángulo verde junto a <code>public static void main</code>. Se abrirá la consola con la salida del programa.</p></div></div>
+  </div>
+
+  <div class="callout"><strong>Atajo alterno por terminal:</strong> si prefieres no usar IntelliJ, desde la raíz del proyecto puedes compilar con:</div>
+  <pre><button class="copy">Copiar</button><code>mkdir -p out
+find src -name "*.java" &gt; sources.txt
+javac -d out @sources.txt
+java -cp out Main</code></pre>
+</section>
+
+<section class="section" id="pruebas">
+  <div class="section-head"><div class="section-num">06</div><div><h2>Cómo ejecutar las pruebas</h2><div class="muted">Verifica tu implementación con los tests JUnit</div></div></div>
+
+  <h3>Opción A · Desde IntelliJ (recomendado)</h3>
+  <ol>
+    <li>En el panel de proyecto, expande la carpeta <code>test/</code>.</li>
+    <li>Clic derecho sobre la carpeta <code>test</code> → <code>Run 'All Tests'</code>.</li>
+    <li>IntelliJ abrirá la pestaña de resultados con un árbol de tests en verde (pasaron) o rojo (fallaron).</li>
+    <li>Si un test falla, haz clic sobre él para ver el <code>AssertionError</code> con el detalle de qué se esperaba.</li>
+    <li>Itera: implementa, corre los tests, corrige, vuelve a correr.</li>
+  </ol>
+
+  <div class="callout ok"><strong>Objetivo:</strong> todos los tests deben quedar en verde antes del cierre de la sesión.</div>
+
+  <h3>Opción B · Desde la terminal</h3>
+  <pre><button class="copy">Copiar</button><code># Compilar src y test juntos
+mkdir -p out
+find src test -name "*.java" &gt; sources.txt
+javac -cp lib/junit-platform-console-standalone-1.10.2.jar -d out @sources.txt
+
+# Ejecutar los tests
+java -jar lib/junit-platform-console-standalone-1.10.2.jar \
+     --class-path out --scan-class-path</code></pre>
+
+  <h3>Qué evalúan los tests</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Archivo de test</th><th>Qué verifica</th></tr></thead>
+    <tbody>
+      <tr><td><code>SensorTest.java</code></td><td>Buffer circular, promedio, <code>generarLectura()</code> y <code>fueraDeRango()</code> en cada subclase, polimorfismo en arreglo.</td></tr>
+      <tr><td><code>NodoIoTTest.java</code></td><td>Composición de sensores, tipo inválido, promedio de temperatura, detección de fuera de rango.</td></tr>
+      <tr><td><code>CentroMonitoreoTest.java</code></td><td>Agregación de nodos y generación del reporte de temperaturas.</td></tr>
+      <tr><td><code>ValidadorLecturaTest.java</code></td><td>Validación de temperatura, humedad y luminosidad según rango.</td></tr>
+      <tr><td><code>LecturaTest.java</code></td><td>Dependencia entre <code>Lectura</code> y <code>ValidadorLectura</code>.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout warn"><strong>Recuerda:</strong> los tests están diseñados para comprobar el comportamiento esperado de tu código. Si un test falla, el problema está en tu implementación, no en el test. <strong>No modifiques los tests.</strong></div>
+</section>
+
+<section class="section" id="errores">
+  <div class="section-head"><div class="section-num">07</div><div><h2>Errores comunes y cómo resolverlos</h2><div class="muted">Checklist de autodiagnóstico</div></div></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Síntoma</th><th>Causa probable</th><th>Solución</th></tr></thead>
+    <tbody>
+      <tr><td><code>Cannot resolve symbol 'Test'</code></td><td>El JAR de JUnit no está agregado como librería</td><td>Repite el paso 6 de "Cómo ejecutar el proyecto"</td></tr>
+      <tr><td><code>Cannot find main class</code></td><td><code>src/</code> no está marcado como Sources Root</td><td>Paso 3 de "Cómo ejecutar el proyecto"</td></tr>
+      <tr><td>Los tests no muestran triángulo verde</td><td><code>test/</code> no está marcado como Test Sources Root</td><td>Paso 4 de "Cómo ejecutar el proyecto"</td></tr>
+      <tr><td>Error de compilación "package sensores does not exist"</td><td>Estructura de carpetas incorrecta</td><td>Verifica que exista <code>src/sensores/Sensor.java</code></td></tr>
+      <tr><td>Un test falla con <code>expected 25.0 but was 0.0</code></td><td>El promedio no está implementado</td><td>Implementa <code>promedioUltimasLecturas()</code> sumando todas las lecturas registradas</td></tr>
+      <tr><td>Un test falla con <code>expected 1 but was 0</code> en <code>getCantidadLecturas()</code></td><td><code>generarLectura()</code> no llama a <code>registrarLectura()</code></td><td>Dentro de <code>generarLectura()</code> llama primero a <code>registrarLectura(valor)</code></td></tr>
+      <tr><td>El buffer no respeta la capacidad</td><td>No usas el índice circular</td><td>Cuando <code>indiceActual == capacidad</code>, vuelve a 0 y sobrescribe</td></tr>
+      <tr><td><code>git push</code> rechazado</td><td>Estás en <code>main</code> o la rama remota ya existe</td><td>Verifica con <code>git branch</code> y haz <code>git pull --rebase</code> si es necesario</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<div class="footer">
+  Parcial · Estructuras de Datos · Ingeniería en Datos e Inteligencia Artificial<br>
+  Enunciado A · Red de Sensores IoT
+</div>
+</main>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+$('#theme').addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  $('#theme').textContent=document.body.classList.contains('dark')?'☀':'☾';
+});
+function progress(){
+  const d=document.documentElement;
+  const max=d.scrollHeight-d.clientHeight;
+  $('#progress').style.width=(max>0?d.scrollTop/max*100:0)+'%';
+}
+window.addEventListener('scroll',progress,{passive:true});
+progress();
+const links=$$('#nav a');
+const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting){
+    links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+  }
+}),{rootMargin:'-18% 0px -70% 0px'});
+sections.forEach(s=>observer.observe(s));
+$$('.copy').forEach(b=>b.addEventListener('click',async()=>{
+  const txt=b.parentElement.querySelector('code').innerText;
+  try{
+    await navigator.clipboard.writeText(txt);
+    b.textContent='Copiado';
+    setTimeout(()=>b.textContent='Copiar',1200);
+  }catch(e){
+    b.textContent='Selecciona el código';
+  }
+}));
+</script>
+</body>
+</html>
